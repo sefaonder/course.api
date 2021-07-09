@@ -7,8 +7,10 @@ using Microsoft.Extensions.Logging;
 
 namespace course.Controllers
 {
+    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiController]
-    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
