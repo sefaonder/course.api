@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using course.database;
+using course.services;
 
 namespace course
 {
@@ -36,6 +37,8 @@ namespace course
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "course", Version = "v1" });
             });
+
+            services.AddTransient<IEmployeeService, EmployeeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
