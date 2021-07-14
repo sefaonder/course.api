@@ -55,6 +55,8 @@ namespace course
                 });
             }
 
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(_ => true).AllowCredentials());
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
