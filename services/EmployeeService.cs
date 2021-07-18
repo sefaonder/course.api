@@ -12,6 +12,8 @@ namespace course.services
     public interface IEmployeeService
     {
         Task<ApiResult> Add(EmployeeAddDto model);
+        Task<ApiResult> Update(EmployeeUpdateDto model);
+        Task<ApiResult> Delete(Guid id);
         Task<IList<EmployeeGetDto>> Get();
     }
 
@@ -40,6 +42,43 @@ namespace course.services
 
             return new ApiResult { Success = true, Data = entity.Id, Message = "Ok" };
         }
+
+        public async Task<ApiResult> Update(EmployeeUpdateDto model)
+        {
+            var entity = await _context.Employee
+                .Where(x => !x.IsDeleted && x.Id == model.Id)
+                .FirstOrDefaultAsync();
+
+            if (entity == null)
+                return new ApiResult { Data = model.Id, Message = ApiResultMessages.PCE01 };
+
+            entity.Name = model.Name;
+            entity.Email = model.Email;
+            entity.BirthDate = model.BirthDate;
+            entity.Phone = model.Phone;
+            entity.Gender = model.Gender;
+            entity.Salary = model.Salary;
+            entity.IsDeleted = model.IsDeleted;
+            await _context.SaveChangesAsync();
+
+            return new ApiResult { Data = entity.Id, Message = ApiResultMessages.Ok };
+        }
+
+        public async Task<ApiResult> Delete(Guid id)
+        {
+            var entity = await _context.Employee
+                .Where(x => !x.IsDeleted && x.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (entity == null)
+                return new ApiResult { Data = id, Message = ApiResultMessages.PCE01 };
+
+            entity.IsDeleted = true;
+            await _context.SaveChangesAsync();
+
+            return new ApiResult { Data = entity.Id, Message = ApiResultMessages.Ok };
+        }
+
 
         public async Task<IList<EmployeeGetDto>> Get()
         {
