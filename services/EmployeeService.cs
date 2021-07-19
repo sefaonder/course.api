@@ -33,6 +33,7 @@ namespace course.services
                 Name = model.Name,
                 Email = model.Email,
                 BirthDate = model.BirthDate,
+                Phone = model.Phone,
                 Gender = model.Gender,
                 Salary = model.Salary
             };
