@@ -51,7 +51,7 @@ namespace course.services
                 .FirstOrDefaultAsync();
 
             if (entity == null)
-                return new ApiResult { Data = model.Id, Message = ApiResultMessages.PCE01 };
+                return new ApiResult { Success = false, Data = model.Id, Message = ApiResultMessages.PCE01 };
 
             entity.Name = model.Name;
             entity.Email = model.Email;
@@ -72,12 +72,12 @@ namespace course.services
                 .FirstOrDefaultAsync();
 
             if (entity == null)
-                return new ApiResult { Data = id, Message = ApiResultMessages.PCE01 };
+                return new ApiResult { Success = false, Data = id, Message = ApiResultMessages.PCE01 };
 
             entity.IsDeleted = true;
             await _context.SaveChangesAsync();
 
-            return new ApiResult { Data = entity.Id, Message = ApiResultMessages.Ok };
+            return new ApiResult { Success = true, Data = entity.Id, Message = ApiResultMessages.Ok };
         }
 
 
