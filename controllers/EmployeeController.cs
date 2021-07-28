@@ -53,10 +53,19 @@ namespace course.controllers
         }
 
         [HttpGet("Get")]
-        [ProducesResponseType(typeof(IList<EmployeeGetDto>), 200)]
+        [ProducesResponseType(typeof(IList<EmployeeListDto>), 200)]
         public async Task<IActionResult> Get()
         {
             var result = await _employeeService.Get();
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetById")]
+        // [ProducesResponseType(typeof(IList<EmployeeGetDto>), 200)]
+        public async Task<IActionResult> GetById([BindRequired] Guid id)
+        {
+            var result = await _employeeService.GetById(id);
 
             return Ok(result);
         }

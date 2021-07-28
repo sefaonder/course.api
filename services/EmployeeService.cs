@@ -14,7 +14,10 @@ namespace course.services
         Task<ApiResult> Add(EmployeeAddDto model);
         Task<ApiResult> Update(EmployeeUpdateDto model);
         Task<ApiResult> Delete(Guid id);
-        Task<IList<EmployeeGetDto>> Get();
+        Task<IList<EmployeeListDto>> Get();
+        Task<ApiResult> GetById(Guid id);
+
+
     }
 
     public class EmployeeService : IEmployeeService
@@ -81,25 +84,46 @@ namespace course.services
         }
 
 
-        public async Task<IList<EmployeeGetDto>> Get()
+        public async Task<IList<EmployeeListDto>> Get()
         {
             var result = await _context
                 .Employee
                 .Where(x => !x.IsDeleted)
+                .Select(s => new EmployeeListDto
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Email = s.Email,
+                    Phone = s.Phone,
+
+                })
+                .OrderBy(o => o.Name)
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<ApiResult> GetById(Guid id)
+        {
+            var result = await _context
+                .Employee
+                .Where(x => !x.IsDeleted && x.Id == id)
                 .Select(s => new EmployeeGetDto
                 {
                     Id = s.Id,
                     Name = s.Name,
                     Email = s.Email,
                     Phone = s.Phone,
-                    BirthDate = s.BirthDate,
                     Gender = s.Gender,
-                    Salary = s.Salary
+                    Salary = s.Salary,
                 })
-                .OrderBy(o => o.Name)
-                .ToListAsync();
 
-            return result;
+                .FirstOrDefaultAsync();
+
+            if (result == null)
+                return new ApiResult { Success = false, Data = id, Message = ApiResultMessages.PCE01 };
+
+            return new ApiResult { Success = true, Data = result, Message = ApiResultMessages.Ok };
         }
     }
 }
