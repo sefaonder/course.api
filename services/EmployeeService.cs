@@ -58,14 +58,14 @@ namespace course.services
 
             entity.Name = model.Name;
             entity.Email = model.Email;
-            entity.Phone = model.Phone;
             entity.BirthDate = model.BirthDate;
+            entity.Phone = model.Phone;
             entity.Gender = model.Gender;
             entity.Salary = model.Salary;
             entity.IsDeleted = model.IsDeleted;
             await _context.SaveChangesAsync();
 
-            return new ApiResult { Data = entity.Id, Message = ApiResultMessages.Ok };
+            return new ApiResult { Success = true, Data = entity.Id, Message = ApiResultMessages.Ok };
         }
 
         public async Task<ApiResult> Delete(Guid id)
