@@ -58,8 +58,8 @@ namespace course.services
 
             entity.Name = model.Name;
             entity.Email = model.Email;
-            entity.BirthDate = model.BirthDate;
             entity.Phone = model.Phone;
+            entity.BirthDate = model.BirthDate;
             entity.Gender = model.Gender;
             entity.Salary = model.Salary;
             entity.IsDeleted = model.IsDeleted;
@@ -113,6 +113,7 @@ namespace course.services
                     Id = s.Id,
                     Name = s.Name,
                     Email = s.Email,
+                    BirthDate = s.BirthDate,
                     Phone = s.Phone,
                     Gender = s.Gender,
                     Salary = s.Salary,
